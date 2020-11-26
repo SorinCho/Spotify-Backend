@@ -5,9 +5,7 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = 'CLIENT_ID'; // Your client id
-var client_secret = 'CLIENT_SECRET'; // Your secret
-var redirect_uri = 'REDIRECT_URI'; // Your redirect uri
+const { client_id, client_secret, redirect_uri } = require('./config');
 
 /**
  * Generates a random string containing numbers and letters
