@@ -3,5 +3,5 @@ module.exports = {
   client_secret: process.env.CLIENT_SECRET,
   redirect_uri: process.env.REDIRECT_URI,
   mongodb_uri: process.env.MONGODB_URI,
-  cookie_key: process.env.COOKIE_KEY
+  cookie_key: process.env.COOKIE_KEY,
 };
