@@ -20,10 +20,53 @@ async function getMe() {
   return userData.body;
 }
 
+function avgDuration(tracks) {
+  const total = tracks.reduce((sum, { duration_ms }) => sum + duration_ms, 0);
+  return total / tracks.length;
+}
+
+function pctExplicit(tracks) {
+  const total = tracks.filter((track) => track.explicit == true).length;
+  return total / tracks.length;
+}
+
 async function getTopTracks() {
   const topTracks = await spotifyApi.getMyTopTracks();
-  // console.log(topTracks);
   return topTracks.body.items;
+}
+
+async function getTracksData() {
+  const output = {};
+  output.tracks = await getTopTracks();
+  output.avgPopularity = avgPopularity(output.tracks);
+  output.avgDuration = avgDuration(output.tracks);
+  output.pctExplicit = pctExplicit(output.tracks);
+  return output;
+}
+
+function avgFollowers(artists) {
+  const total = artists.reduce((sum, { followers }) => sum + followers.total, 0);
+  return total / artists.length;
+}
+
+function avgPopularity(artists) {
+  const total = artists.reduce((sum, { popularity }) => sum + popularity, 0);
+  return total / artists.length;
+}
+
+function aggGenres(artists) {
+  const counts = {};
+  artists.forEach((artist) => {
+    artist.genres.forEach((genre) => {
+      counts[genre] = counts[genre] ? counts[genre] + 1 : 1;
+    });
+  });
+  const sortable = [];
+  for (const genre in counts) {
+    sortable.push([genre, counts[genre]]);
+  }
+  sortable.sort((a, b) => b[1] - a[1]);
+  return sortable;
 }
 
 async function getTopArtists() {
@@ -31,9 +74,20 @@ async function getTopArtists() {
   return topArtists.body.items;
 }
 
+async function getArtistsData() {
+  const output = {};
+  output.artists = await getTopArtists();
+  output.avgFollowers = avgFollowers(output.artists);
+  output.avgPopularity = avgPopularity(output.artists);
+  output.aggGenres = aggGenres(output.artists);
+  return output;
+}
+
 module.exports = {
   setTokens,
   getMe,
   getTopTracks,
   getTopArtists,
+  getArtistsData,
+  getTracksData,
 };

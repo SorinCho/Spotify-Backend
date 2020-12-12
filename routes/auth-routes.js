@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const {
-  getMe, setTokens, getTopTracks, getTopArtists,
+  getMe, setTokens, getArtistsData, getTracksData,
 } = require('../services/spotify-api');
 
 const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
@@ -10,15 +10,16 @@ const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
 router.get('/login/success', async (req, res) => {
   if (req.user) {
     let userData;
-    let topTracks;
-    let topArtists;
+    let artistsData;
+    let tracksData;
     try {
       await setTokens(req.user.accessToken, req.user.refreshToken);
       userData = await getMe();
-      topTracks = await getTopTracks();
-      topArtists = await getTopArtists();
+      artistsData = await getArtistsData();
+      tracksData = await getTracksData();
     } catch (err) {
       console.log('authenticate failure or retrieval failure');
+      console.log(err);
       return res.status(401).json({
         success: false,
         message: 'user failed to authenticate.',
@@ -31,8 +32,8 @@ router.get('/login/success', async (req, res) => {
       user: req.user,
       cookies: req.cookies,
       userData,
-      topTracks,
-      topArtists,
+      artistsData,
+      tracksData,
     });
   }
 });
