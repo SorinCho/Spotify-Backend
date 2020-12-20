@@ -1,13 +1,15 @@
 const router = require('express').Router();
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const {
   getMe, setTokens, getArtistsData, getTracksData,
 } = require('../services/spotify-api');
 
+const jsonParser = bodyParser.json();
 const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
 
 // when login is successful, retrieve user info
-router.get('/login/success', async (req, res) => {
+router.post('/login/success', jsonParser, async (req, res) => {
   if (req.user) {
     let userData;
     let artistsData;
@@ -15,8 +17,9 @@ router.get('/login/success', async (req, res) => {
     try {
       await setTokens(req.user.accessToken, req.user.refreshToken);
       userData = await getMe();
-      artistsData = await getArtistsData();
-      tracksData = await getTracksData();
+      console.log(req.body);
+      artistsData = await getArtistsData(req.body);
+      tracksData = await getTracksData(req.body);
     } catch (err) {
       console.log('authenticate failure or retrieval failure');
       console.log(err);
@@ -59,7 +62,7 @@ router.get(
     successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: '/auth/login/failed',
     scope: ['user-read-email', 'user-read-private', 'user-top-read'],
-    // showDialog: true,
+    showDialog: true,
   }),
 );
 

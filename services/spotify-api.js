@@ -30,14 +30,17 @@ function pctExplicit(tracks) {
   return total / tracks.length;
 }
 
-async function getTopTracks() {
-  const topTracks = await spotifyApi.getMyTopTracks();
+async function getTopTracks(data) {
+  const topTracks = await spotifyApi.getMyTopTracks({
+    limit: data.limit,
+    time_range: data.timeRange,
+  });
   return topTracks.body.items;
 }
 
-async function getTracksData() {
+async function getTracksData(data) {
   const output = {};
-  output.tracks = await getTopTracks();
+  output.tracks = await getTopTracks(data);
   output.avgPopularity = avgPopularity(output.tracks);
   output.avgDuration = avgDuration(output.tracks);
   output.pctExplicit = pctExplicit(output.tracks);
@@ -69,14 +72,17 @@ function aggGenres(artists) {
   return sortable;
 }
 
-async function getTopArtists() {
-  const topArtists = await spotifyApi.getMyTopArtists();
+async function getTopArtists(data) {
+  const topArtists = await spotifyApi.getMyTopArtists({
+    limit: data.limit,
+    time_range: data.timeRange,
+  });
   return topArtists.body.items;
 }
 
-async function getArtistsData() {
+async function getArtistsData(data) {
   const output = {};
-  output.artists = await getTopArtists();
+  output.artists = await getTopArtists(data);
   output.avgFollowers = avgFollowers(output.artists);
   output.avgPopularity = avgPopularity(output.artists);
   output.aggGenres = aggGenres(output.artists);
