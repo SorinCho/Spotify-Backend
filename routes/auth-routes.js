@@ -21,9 +21,9 @@ router.post('/login/success', jsonParser, async (req, res) => {
     try {
       await setTokens(req.user.accessToken, req.user.refreshToken);
       userData = await getMe();
-      console.log(req.body);
-      artistsData = await getArtistsData(req.body);
-      tracksData = await getTracksData(req.body);
+      console.log('request made ');
+      artistsData = await getArtistsData();
+      tracksData = await getTracksData();
     } catch (err) {
       console.log('authenticate failure or retrieval failure');
       console.log(err);

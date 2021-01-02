@@ -1,5 +1,6 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 const { client_id, client_secret, redirect_uri } = require('../config');
+const { create } = require('../models/user-model');
 
 const spotifyApi = new SpotifyWebApi({
   clientId: client_id,
@@ -20,31 +21,36 @@ async function getMe() {
   return userData.body;
 }
 
-async function getTopTracks(data) {
+async function getTopTracks(timeRange) {
   const topTracks = await spotifyApi.getMyTopTracks({
-    limit: data.limit,
-    time_range: data.timeRange,
+    limit: 50,
+    time_range: timeRange,
   });
   return topTracks.body.items;
 }
 
-async function getTracksData(data) {
+async function getTracksData() {
   const output = {};
-  output.tracks = await getTopTracks(data);
+  output.long = await getTopTracks('long_term');
+  output.short = await getTopTracks('short_term');
+  output.medium = await getTopTracks('medium_term');
   return output;
 }
 
-async function getTopArtists(data) {
+async function getTopArtists(timeRange) {
   const topArtists = await spotifyApi.getMyTopArtists({
-    limit: data.limit,
-    time_range: data.timeRange,
+    limit: 50,
+    time_range: timeRange,
   });
   return topArtists.body.items;
 }
 
-async function getArtistsData(data) {
+async function getArtistsData() {
   const output = {};
-  output.artists = await getTopArtists(data);
+  output.long = await getTopArtists('long_term');
+  output.short = await getTopArtists('short_term');
+  output.medium = await getTopArtists('medium_term');
+  // const output = [artistsShort, artistsMedium, artistsLong];
   return output;
 }
 
