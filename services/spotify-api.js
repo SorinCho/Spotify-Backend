@@ -89,6 +89,35 @@ async function getArtistsData(data) {
   return output;
 }
 
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+async function createPlaylist(timeRange, tracks) {
+  let id;
+  try {
+    const date = new Date();
+    const data = await spotifyApi.createPlaylist(monthNames[date.getMonth()], {
+      description: 'My description',
+      public: true,
+    });
+    await spotifyApi.addTracksToPlaylist(data.body.id, tracks);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   setTokens,
   getMe,
@@ -96,4 +125,5 @@ module.exports = {
   getTopArtists,
   getArtistsData,
   getTracksData,
+  createPlaylist,
 };
