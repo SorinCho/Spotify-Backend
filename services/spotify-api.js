@@ -69,14 +69,20 @@ const monthNames = [
   'December',
 ];
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 async function createPlaylist(timeRange, tracks) {
-  let id;
   try {
     const date = new Date();
-    const data = await spotifyApi.createPlaylist(monthNames[date.getMonth()], {
-      description: 'My description',
-      public: true,
-    });
+    const data = await spotifyApi.createPlaylist(
+      `Top Tracks ${capitalizeFirstLetter(timeRange)} Term ${monthNames[date.getMonth()]}`,
+      {
+        description: 'My description',
+        public: true,
+      },
+    );
     await spotifyApi.addTracksToPlaylist(data.body.id, tracks);
   } catch (err) {
     console.log(err);
