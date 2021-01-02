@@ -2,7 +2,11 @@ const router = require('express').Router();
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const {
-  getMe, setTokens, getArtistsData, getTracksData,
+  getMe,
+  setTokens,
+  getArtistsData,
+  getTracksData,
+  createPlaylist,
 } = require('../services/spotify-api');
 
 const jsonParser = bodyParser.json();
@@ -41,6 +45,27 @@ router.post('/login/success', jsonParser, async (req, res) => {
   }
 });
 
+router.post('/createTracksPlaylist', jsonParser, async (req, res) => {
+  if (req.user) {
+    try {
+      await setTokens(req.user.accessToken, req.user.refreshToken);
+      await createPlaylist(req.body.timeRange, req.body.tracks);
+    } catch (err) {
+      console.log('authenticate failure or retrieval failure');
+      console.log(err);
+      return res.status(401).json({
+        success: false,
+        message: 'user failed to authenticate.',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'playlist successfully created',
+    });
+  }
+});
+
 // when login failed, send failed msg
 router.get('/login/failed', (req, res) => {
   res.status(401).json({
@@ -61,7 +86,13 @@ router.get(
   passport.authenticate('spotify', {
     successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: '/auth/login/failed',
-    scope: ['user-read-email', 'user-read-private', 'user-top-read'],
+    scope: [
+      'user-read-email',
+      'user-read-private',
+      'user-top-read',
+      'playlist-modify-public',
+      'ugc-image-upload',
+    ],
     showDialog: true,
   }),
 );
@@ -72,7 +103,13 @@ router.get(
   passport.authenticate('spotify', {
     successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: '/auth/login/failed',
-    scope: ['user-read-email', 'user-read-private', 'user-top-read'],
+    scope: [
+      'user-read-email',
+      'user-read-private',
+      'user-top-read',
+      'playlist-modify-public',
+      'ugc-image-upload',
+    ],
     showDialog: true,
   }),
 );
