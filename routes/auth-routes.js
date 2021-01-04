@@ -11,6 +11,7 @@ const {
 
 const jsonParser = bodyParser.json();
 const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
+const CLIENT_REDIRECT_URL = 'http://localhost:3000/home';
 
 // when login is successful, retrieve user info
 router.post('/login/success', jsonParser, async (req, res) => {
@@ -84,7 +85,7 @@ router.get('/logout', (req, res) => {
 router.get(
   '/spotify',
   passport.authenticate('spotify', {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: CLIENT_REDIRECT_URL,
     failureRedirect: '/auth/login/failed',
     scope: [
       'user-read-email',
@@ -101,7 +102,7 @@ router.get(
 router.get(
   '/spotify/redirect',
   passport.authenticate('spotify', {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: CLIENT_REDIRECT_URL,
     failureRedirect: '/auth/login/failed',
     scope: [
       'user-read-email',
