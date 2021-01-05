@@ -41,7 +41,11 @@ mongoose.connect(
 
 const app = express();
 // set up cors to allow us to accept requests from our client
-const whitelist = [process.env.CLIENT_HOME_URL, `${process.env.CLIENT_HOME_URL}/home`];
+const whitelist = [
+  process.env.CLIENT_HOME_URL,
+  `${process.env.CLIENT_HOME_URL}/home`,
+  'https://spotify-unwrapped-backend.herokuapp.com/',
+];
 const corsOptions = {
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
