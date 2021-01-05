@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 // const SpotifyWebApi = require('spotify-web-api-node');
 const authRoutes = require('./routes/auth-routes');
 
-const port = 8888;
+const port = process.env.PORT || 8888;
 // var spotifyApi = require('./spotify-setup')
 const passportSetup = require('./passport-setup');
 
