@@ -6,7 +6,6 @@ const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth-routes');
 
 const port = process.env.PORT || 8888;
-// var spotifyApi = require('./spotify-setup')
 const passportSetup = require('./passport-setup');
 
 // mongoose.connect(
@@ -52,18 +51,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
-
-// async function getUserData() {
-//   let v;
-//   try {
-//     v = await spotifyApi.getMe();
-//     console.log(v.body);
-//   } catch(e) {
-//     v = "error";
-//     console.log("user get erorr");
-//   }
-//   return v.body;
-// }
 
 // connect react to nodejs express server
 app.listen(port, () => console.log(`Server is running on port ${port}!`));

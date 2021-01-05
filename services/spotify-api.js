@@ -7,9 +7,6 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI,
 });
 
-// spotifyApi.setAccessToken(req.user.accessToken);
-// spotifyApi.setRefreshToken(req.user.refreshToken);
-
 async function setTokens(accessToken, refreshToken) {
   await spotifyApi.setAccessToken(accessToken);
   await spotifyApi.setRefreshToken(refreshToken);
