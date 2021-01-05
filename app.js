@@ -41,11 +41,23 @@ mongoose.connect(
 
 const app = express();
 // set up cors to allow us to accept requests from our client
+// const whitelist = [process.env.CLIENT_HOME_URL, `${process.env.CLIENT_HOME_URL}/home`];
+// var corsOptions = {
+//   credentials: true,
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 app.use(
   cors({
-    origin: process.env.CLIENT_HOME_URL, // allow to server to accept request from different origin
+    credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // allow session cookie from browser to pass through
+    origin: process.env.ORIGIN,
   }),
 );
 
