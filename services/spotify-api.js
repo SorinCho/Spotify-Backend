@@ -1,11 +1,10 @@
 const SpotifyWebApi = require('spotify-web-api-node');
-const { client_id, client_secret, redirect_uri } = require('../config');
-const { create } = require('../models/user-model');
+// const { create } = require('../models/user-model');
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: client_id,
-  clientSecret: client_secret,
-  redirectUri: redirect_uri,
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI,
 });
 
 // spotifyApi.setAccessToken(req.user.accessToken);

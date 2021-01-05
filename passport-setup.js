@@ -1,7 +1,7 @@
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 // const keys = require("./keys");
-const { client_id, client_secret, redirect_uri } = require('./config');
+// const { client_id, client_secret, redirect_uri } = require('./config');
 const User = require('./models/user-model');
 // import spotifyApi from './spotify-setup';
 // serialize the user.id to save in the cookie session
@@ -24,9 +24,9 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new SpotifyStrategy(
     {
-      clientID: client_id,
-      clientSecret: client_secret,
-      callbackURL: redirect_uri,
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.REDIRECT_URI,
     },
     async (accessToken, refreshToken, expires_in, profile, done) => {
       // find current user in UserModel

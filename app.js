@@ -1,19 +1,18 @@
 const express = require('express'); // Express web server framework
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
-const session = require('express-session');
+// const session = require('express-session');
 const mongoose = require('mongoose');
-const SpotifyWebApi = require('spotify-web-api-node');
+// const SpotifyWebApi = require('spotify-web-api-node');
 const authRoutes = require('./routes/auth-routes');
 
 const port = 8888;
-// var spotifyApi = require('./spotify-setup');
-const { mongodb_uri, cookie_key } = require('./config');
+// var spotifyApi = require('./spotify-setup')
 const passportSetup = require('./passport-setup');
 
-const spotifyApi = new SpotifyWebApi();
+// const spotifyApi = new SpotifyWebApi();
 
 /**
  * Generates a random string containing numbers and letters
@@ -32,16 +31,20 @@ const generateRandomString = function (length) {
 
 const stateKey = 'spotify_auth_state';
 
-mongoose.connect(mongodb_uri, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-  console.log('connected to mongo db');
-});
+mongoose.connect(
+  process.env.MONGODB_URI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('connected to mongo db');
+  },
+);
 
 const app = express();
 
 app.use(
   cookieSession({
     name: 'session',
-    keys: [cookie_key],
+    keys: [process.env.COOKIE_KEY],
     maxAge: 24 * 60 * 60 * 100,
   }),
 );

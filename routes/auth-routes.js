@@ -10,8 +10,8 @@ const {
 } = require('../services/spotify-api');
 
 const jsonParser = bodyParser.json();
-const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
-const CLIENT_REDIRECT_URL = 'http://localhost:3000/home';
+const { CLIENT_HOME_URL } = process.env;
+const CLIENT_REDIRECT_URL = `${CLIENT_HOME_URL}/home`;
 
 // when login is successful, retrieve user info
 router.post('/login/success', jsonParser, async (req, res) => {
@@ -22,7 +22,6 @@ router.post('/login/success', jsonParser, async (req, res) => {
     try {
       await setTokens(req.user.accessToken, req.user.refreshToken);
       userData = await getMe();
-      console.log('request made ');
       artistsData = await getArtistsData();
       tracksData = await getTracksData();
     } catch (err) {
@@ -78,7 +77,7 @@ router.get('/login/failed', (req, res) => {
 // When logout, redirect to client
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect(CLIENT_HOME_PAGE_URL);
+  res.redirect(CLIENT_HOME_URL);
 });
 
 // auth with twitter
@@ -86,7 +85,8 @@ router.get(
   '/spotify',
   passport.authenticate('spotify', {
     successRedirect: CLIENT_REDIRECT_URL,
-    failureRedirect: '/auth/login/failed',
+    // failureRedirect: '/auth/login/failed',
+    failureRedirect: CLIENT_HOME_URL,
     scope: [
       'user-read-email',
       'user-read-private',
@@ -103,7 +103,7 @@ router.get(
   '/spotify/redirect',
   passport.authenticate('spotify', {
     successRedirect: CLIENT_REDIRECT_URL,
-    failureRedirect: '/auth/login/failed',
+    failureRedirect: CLIENT_HOME_URL,
     scope: [
       'user-read-email',
       'user-read-private',
