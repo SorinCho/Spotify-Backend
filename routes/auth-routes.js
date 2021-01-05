@@ -15,7 +15,7 @@ const CLIENT_REDIRECT_URL = `${CLIENT_HOME_URL}/home`;
 
 // when login is successful, retrieve user info
 router.get('/login/success', jsonParser, async (req, res) => {
-  console.log(req.headers.origin);
+  // console.log(req.headers.origin);
   if (req.user) {
     let userData;
     let artistsData;
