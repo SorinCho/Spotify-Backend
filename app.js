@@ -1,43 +1,21 @@
 const express = require('express'); // Express web server framework
 const cors = require('cors');
-// const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
-// const session = require('express-session');
-const mongoose = require('mongoose');
-// const SpotifyWebApi = require('spotify-web-api-node');
+// const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth-routes');
 
 const port = process.env.PORT || 8888;
 // var spotifyApi = require('./spotify-setup')
 const passportSetup = require('./passport-setup');
 
-// const spotifyApi = new SpotifyWebApi();
-
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
-const generateRandomString = function (length) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const stateKey = 'spotify_auth_state';
-
-mongoose.connect(
-  process.env.MONGODB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log('connected to mongo db');
-  },
-);
+// mongoose.connect(
+//   process.env.MONGODB_URI,
+//   { useNewUrlParser: true, useUnifiedTopology: true },
+//   () => {
+//     console.log('connected to mongo db');
+//   },
+// );
 
 const app = express();
 // set up cors to allow us to accept requests from our client
