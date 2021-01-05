@@ -75,41 +75,6 @@ app.use(passport.session());
 
 app.use('/auth', authRoutes);
 
-const authCheck = (req, res, next) => {
-  if (!req.user) {
-    res.status(401).json({
-      authenticated: false,
-      message: 'user has not been authenticated',
-    });
-  } else {
-    next();
-  }
-};
-
-// if it's already login, send the profile response,
-// otherwise, send a 401 response that the user is not authenticated
-// authCheck before navigating to home page
-app.get('/', authCheck, async (req, res) => {
-  // const { user } = req;
-  // spotifyApi.setAccessToken(user.accessToken);
-  // spotifyApi.setRefreshToken(user.refreshToken);
-  // var userData;
-  // await spotifyApi.getMe().then(result => {
-  //   userData = result.body;
-  //   console.log(result.body);
-  // }).catch(e => {
-  //   console.log("error get user");
-  // })
-  // console.log("APP ROUTE");
-  res.status(200).json({
-    authenticated: true,
-    message: 'user successfully authenticated',
-    user: req.user,
-    cookies: req.cookies,
-    // name: userData.display_name
-  });
-});
-
 // async function getUserData() {
 //   let v;
 //   try {
