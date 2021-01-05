@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const {
   getMe,
   setTokens,
@@ -14,7 +15,7 @@ const { CLIENT_HOME_URL } = process.env;
 const CLIENT_REDIRECT_URL = `${CLIENT_HOME_URL}/home`;
 
 // when login is successful, retrieve user info
-router.post('/login/success', jsonParser, async (req, res) => {
+router.post('/login/success', cors(), jsonParser, async (req, res) => {
   if (req.user) {
     let userData;
     let artistsData;
