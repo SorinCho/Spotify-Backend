@@ -11,11 +11,10 @@ const {
 
 const jsonParser = bodyParser.json();
 const { CLIENT_HOME_URL } = process.env;
-const CLIENT_REDIRECT_URL = `${CLIENT_HOME_URL}/home`;
+const CLIENT_REDIRECT_URL = `${CLIENT_HOME_URL}`;
 
 // when login is successful, retrieve user info
 router.get('/login/success', jsonParser, async (req, res) => {
-  // console.log(req.headers.origin);
   if (req.user) {
     let userData;
     let artistsData;
@@ -39,6 +38,10 @@ router.get('/login/success', jsonParser, async (req, res) => {
       userData,
       artistsData,
       tracksData,
+    });
+  } else {
+    res.status(204).json({
+      message: 'user not yet authenticated',
     });
   }
 });

@@ -41,6 +41,7 @@ app.use(
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', process.env.ORIGIN); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
 
@@ -57,6 +58,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
-
+// app.get('/', async (req, res) => {
+//   // const { user } = req;
+//   // spotifyApi.setAccessToken(user.accessToken);
+//   // spotifyApi.setRefreshToken(user.refreshToken);
+//   // var userData;
+//   // await spotifyApi.getMe().then(result => {
+//   //   userData = result.body;
+//   //   console.log(result.body);
+//   // }).catch(e => {
+//   //   console.log("error get user");
+//   // })
+//   // console.log("APP ROUTE");
+//   res.status(200).json({
+//     authenticated: true,
+//     message: 'user successfully authenticated',
+//     user: req.user,
+//     cookies: req.cookies,
+//     // name: userData.display_name
+//   });
+// });
 // connect react to nodejs express server
 app.listen(port, () => console.log(`Server is running on port ${port}!`));
